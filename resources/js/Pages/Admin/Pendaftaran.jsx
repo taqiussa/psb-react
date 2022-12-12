@@ -13,8 +13,8 @@ const Pendaftaran = () => {
         password: '',
         remember: '',
     });
-    const [kode, setKode] = useState(0);
-    const [kodePendaftaran, setKodePendaftaran] = useState(0);
+    const [kode, setKode] = useState('');
+    const [kodePendaftaran, setKodePendaftaran] = useState('');
     useEffect(() => {
         return () => {
             reset('password');
@@ -33,7 +33,6 @@ const Pendaftaran = () => {
             kategoriPendaftar: kode
         }))
             .then(response => {
-                console.log(response);
                 setKodePendaftaran(response.data.kode);
             });
         
