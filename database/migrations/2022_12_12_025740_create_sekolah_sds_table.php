@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('sekolah_sds', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pendaftar_id');
+            $table->string('nama');
+            $table->foreignId('desa');
+            $table->foreignId('kecamatan');
+            $table->foreignId('kabupaten');
+            $table->foreignId('provinsi');
             $table->timestamps();
         });
     }

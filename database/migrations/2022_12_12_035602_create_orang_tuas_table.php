@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('calon_siswas', function (Blueprint $table) {
+        Schema::create('orang_tuas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_daftar');
-            $table->string('nama');
-            $table->date('tanggal_daftar');
-            $table->foreignId('user_id');
-            $table->string('tingkat');
-            $table->string('pindahan')->default(0);
+            $table->foreignId('pendaftar_id');
+            $table->string('nama_ayah');
+            $table->string('pekerjaan_ayah')->nullable();
+            $table->string('nama_ibu');
+            $table->string('pekerjaan_ibu')->nullable();
+            $table->string('penghasilan')->nullable();
+            $table->string('telepon')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calon_siswas');
+        Schema::dropIfExists('orang_tuas');
     }
 };
