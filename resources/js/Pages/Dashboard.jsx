@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import AppLayout from '@/Layouts/AppLayout';
-import Select from 'react-select'
-import { useForm } from '@inertiajs/inertia-react';
+import Select from "react-tailwindcss-select";
+import { Head } from '@inertiajs/inertia-react';
+
 
 const Dashboard = ({ list_siswa }) => {
-    const { data, setData } = useForm({
-        op: []
-    });
-    const [cek, setCek] = useState('');
-
-    const handleChange = (e) => {
-        setData(e.target.name, e.target.value);
-    }
-    const handle = (e) => {
-        setCek(e.target.value);
+    const [siswa, setSiswa] = useState(null);
+    const handleSelect = (value) => {
+        setSiswa(value);
     }
     return (
-        <div className="lg:grid lg:grid-cols-4 lg:gap-4">
-            <div>
-                <Select onChange={handleChange} options={list_siswa} name="op" />
+        <>
+            <Head title='Dashboard' />
+            <div className="lg:grid lg:grid-cols-4 lg:gap-4">
+                <div>
+                    {siswa && siswa.value}
+                </div>
+                <div>
+                    <Select
+                        primaryColor={"indigo"}
+                        value={siswa}
+                        onChange={handleSelect}
+                        options={list_siswa}
+                    />
+                </div>
             </div>
-            <div>
-                <input name='cek' onChange={handle} value={cek} className="border border-1 border-slate-700" />
-            </div>
-            <div>
-                {cek}
-            </div>
-        </div>
+        </>
     )
 }
 

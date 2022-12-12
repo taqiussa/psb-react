@@ -28,15 +28,15 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
-    $data = [
-        'list_siswa' => Siswa::with('user')
-            ->get()
-            ->map(fn ($user) => [
-                'label' => $user->user->name,
-                'value' => $user->nis
-            ])
-    ];
-    return inertia('Dashboard', $data);
+    // $data = [
+    //     'list_siswa' => Siswa::with('user')
+    //         ->get()
+    //         ->map(fn ($user) => [
+    //             'label' => $user->user->name,
+    //             'value' => $user->nis
+    //         ])
+    // ];
+    return inertia('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', function () {

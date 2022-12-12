@@ -1,9 +1,15 @@
 import AppLayout from '@/Layouts/AppLayout'
+import { Head } from '@inertiajs/inertia-react'
 import React from 'react'
 
 const Home = () => {
     return (
-        <div>Home</div>
+        <>
+        <Head title='Home' />
+        <div className="flex justify-center">
+            Home
+        </div>
+        </>
     )
 }
 

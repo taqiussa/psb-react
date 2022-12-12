@@ -3,7 +3,7 @@ import React from 'react'
 const Navbar = ({ openSide }) => {
     return (
         <div>
-            <div className="sticky top-0 bg-gradient-to-r from-emerald-700 to-green-600">
+            <div className="sticky top-0 pt-3 bg-gradient-to-r from-emerald-700 to-green-600">
                 <div className="grid grid-cols-2">
                     <button onClick={() => openSide()} className="flex items-center self-center py-1 pr-2 ml-2 font-bold text-white transition duration-500 transform border-2 border-emerald-800 rounded-xl bg-emerald-600 hover:bg-emerald-500 focus:bg-emerald-500 place-self-start lg:invisible">
                     <svg style={{ width: 24, height: 24 }} viewBox="0 0 24 24">
