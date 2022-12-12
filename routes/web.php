@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Siswa;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,7 +27,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+
+    $data = [
+        'list_siswa' => Siswa::with('user')
+            ->get()
+            ->map(fn ($user) => [
+                'label' => $user->user->name,
+                'value' => $user->nis
+            ])
+    ];
+    return inertia('Dashboard', $data);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', function () {
@@ -39,4 +49,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
