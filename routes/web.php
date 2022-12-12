@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,15 +30,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
-    // $data = [
-    //     'list_siswa' => Siswa::with('user')
-    //         ->get()
-    //         ->map(fn ($user) => [
-    //             'label' => $user->user->name,
-    //             'value' => $user->nis
-    //         ])
-    // ];
-    return inertia('Dashboard');
+    $data = [
+        'list_siswa' => User::get()
+            ->map(fn ($user) => [
+                'label' => $user->name,
+                'value' => $user->username
+            ])
+    ];
+    return inertia('Dashboard', $data);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', function () {
@@ -44,9 +45,19 @@ Route::get('/home', function () {
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Route Admin
+    Route::middleware(['role:Admin'])->group(function () {
+
+        // Pendaftaran
+        Route::get('pendaftaran', [PendaftaranController::class, 'create'])->name('pendaftaran');
+        Route::post('pendaftaran/get-kode', [PendaftaranController::class, 'getKode'])->name('get-kode');
+    });
+
+
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';

@@ -19,7 +19,7 @@ const AppLayout = ({ children }) => {
             {/* End Left Col */}
 
             {/*  Right Col  */}
-            <div className="max-w-full min-h-screen ml-0 transition lg:ml-64 lg:max-w-7xl xl:max-w-full">
+            <div className="max-w-full ml-0 transition lg:ml-64 lg:max-w-7xl xl:max-w-full">
                 {/*  NavBar  */}
                 <Navbar openSide={openSide} />
                 {/* End Navbar */}

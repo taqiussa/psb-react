@@ -1,18 +1,19 @@
+import { usePage } from '@inertiajs/inertia-react'
 import React from 'react'
 
 const Navbar = ({ openSide }) => {
+    const asset = usePage().props;
     return (
-        <div>
-            <div className="sticky top-0 pt-3 bg-gradient-to-r from-emerald-700 to-green-600">
-                <div className="grid grid-cols-2">
-                    <button onClick={() => openSide()} className="flex items-center self-center py-1 pr-2 ml-2 font-bold text-white transition duration-500 transform border-2 border-emerald-800 rounded-xl bg-emerald-600 hover:bg-emerald-500 focus:bg-emerald-500 place-self-start lg:invisible">
+        <div className="sticky top-0 pt-3 bg-gradient-to-r from-emerald-700 to-green-600">
+            <div className="grid grid-cols-2">
+                <button onClick={() => openSide()} className="flex items-center self-center py-1 pr-2 ml-2 font-bold text-white transition duration-500 transform border-2 border-emerald-800 rounded-xl bg-emerald-600 hover:bg-emerald-500 focus:bg-emerald-500 place-self-start lg:invisible">
                     <svg style={{ width: 24, height: 24 }} viewBox="0 0 24 24">
                         <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
                     </svg>
                     Menu
                 </button>
                 <div className="flex items-center justify-end mr-2 space-x-1 place-self-end">
-                    <img src="images/logoalfa2.png" alt="logo" className="w-12 h-12 lg:w-16 lg:h-16" />
+                    <img src={`${asset.ziggy.url}/images/logoalfa2.png`} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16" />
                 </div>
             </div>
             <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -28,8 +29,7 @@ const Navbar = ({ openSide }) => {
                 </g>
             </svg>
         </div>
-    </div >
-  )
+    )
 }
 
 export default Navbar

@@ -13,14 +13,11 @@ const Sidebar = ({ open, closeSide }) => {
                             <path fill="currentColor" d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
                         </svg>
                     </button>
-                    <h1 className="block py-8 text-2xl font-bold text-emerald-700">{toUpperCase(auth.user.name)}</h1>
-                    <SidebarLink href={route('dashboard')} active={route().current('dashboard')}>
-                        Dashboard
+                    <h1 className="block py-8 text-2xl font-bold text-emerald-700">{auth.user.name}</h1>
+                    <SidebarLink href={route('pendaftaran')} active={route().current('pendaftaran')}>
+                        Pendaftaran
                     </SidebarLink>
-                    <SidebarLink href={route('home')} active={route().current('home')}>
-                        Home
-                    </SidebarLink>
-                    <SidebarLink href={route('logout')} method="post">
+                    <SidebarLink href={route('logout')} method="post" as="button">
                         Logout
                     </SidebarLink>
                 </div>
