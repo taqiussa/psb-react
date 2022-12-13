@@ -1,23 +1,13 @@
+import React, { useEffect, useRef } from 'react'
 import { Link, Head } from '@inertiajs/inertia-react';
-import { useRef } from 'react';
 
-export default function Welcome(props) {
-    var scrollpos = window.scrollY;
+const Welcome = () => {
     const header = useRef(null);
     const navcontent = useRef(null);
     const navaction = useRef(null);
     const toToggle = useRef(null);
-    // var header = document.getElementById("header");
-    // var navcontent = document.getElementById("nav-content");
-    // var navaction = document.getElementById("navAction");
-    // var brandname = document.getElementById("brandname");
-    // var toToggle = document.querySelectorAll(".toggleColour");
-
-    document.addEventListener("scroll", function () {
-        /*Apply classes for slide in bar*/
-        scrollpos = window.scrollY;
-
-        if (scrollpos > 10) {
+    const handleScroll = () => {
+        if (window.scrollY > 10) {
             header.current.classList.add("bg-white");
             navaction.current.classList.remove("bg-white");
             navaction.current.classList.add("bg-gradient-to-r");
@@ -27,11 +17,6 @@ export default function Welcome(props) {
             navaction.current.classList.add("text-white");
             toToggle.current.classList.remove("text-white");
             toToggle.current.classList.add("text-emerald-700");
-            //Use to switch toggleColour colours
-            // for (var i = 0; i < toToggle.length; i++) {
-            //     toToggle[i].current.classList.add("text-emerald-700");
-            //     toToggle[i].current.classList.remove("text-white");
-            // }
             header.current.classList.add("shadow");
             navcontent.current.classList.remove("bg-gray-100");
             navcontent.current.classList.add("bg-white");
@@ -45,56 +30,29 @@ export default function Welcome(props) {
             navaction.current.classList.add("text-emerald-700");
             toToggle.current.classList.remove("text-emerald-700");
             toToggle.current.classList.add("text-white");
-            //Use to switch toggleColour colours
-            // for (var i = 0; i < toToggle.length; i++) {
-            //     toToggle[i].current.classList.add("text-white");
-            //     toToggle[i].current.classList.remove("text-emerald-700");
-            // }
-
             header.current.classList.remove("shadow");
             navcontent.current.classList.remove("bg-white");
             navcontent.current.classList.add("bg-gray-100");
         }
-    });
-
-    var navMenuDiv = document.getElementById("nav-content");
-    var navMenu = document.getElementById("nav-toggle");
-
-    document.onclick = check;
-
-    function check(e) {
-        var target = (e && e.target) || (event && event.srcElement);
-
-        //Nav Menu
-        if (!checkParent(target, navMenuDiv)) {
-            // click NOT on the menu
-            if (checkParent(target, navMenu)) {
-                // click on the link
-                if (navMenuDiv.classList.contains("hidden")) {
-                    navMenuDiv.classList.remove("hidden");
-                } else {
-                    navMenuDiv.classList.add("hidden");
-                }
-            } else {
-                // click both outside link and outside menu, hide menu
-                navMenuDiv.classList.add("hidden");
-            }
+    }
+    const handleClick = () => {
+        if (navcontent.current.classList.contains("hidden")) {
+            navcontent.current.classList.remove("hidden");
+        } else {
+            navcontent.current.classList.add("hidden");
         }
     }
 
-    function checkParent(t, elm) {
-        while (t.parentNode) {
-            if (t == elm) {
-                return true;
-            }
-            t = t.parentNode;
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
         }
-        return false;
-    }
+    }, [])
     return (
         <>
             <Head title="Welcome" />
-            <div>
+            <div >
                 <div className="leading-normal tracking-normal text-white bg-gradient-to-r from-emerald-800 to-green-600">
                     <nav ref={header} id="header" className="fixed top-0 z-30 w-full text-white">
                         <div className="container flex flex-wrap items-center justify-between w-full py-2 mx-auto mt-0">
@@ -108,7 +66,7 @@ export default function Welcome(props) {
                                     </span></a>
                             </div>
                             <div className="block pr-4 lg:hidden">
-                                <button id="nav-toggle" className="flex items-center p-1 transition duration-300 ease-in-out transform text-emerald-800 hover:text-gray-900 focus:outline-none focus:shadow-outline hover:scale-105">
+                                <button onClick={handleClick} id="nav-toggle" className="flex items-center p-1 transition duration-300 ease-in-out transform text-emerald-800 hover:text-gray-900 focus:outline-none focus:shadow-outline hover:scale-105">
                                     <svg className="w-6 h-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <title>Menu</title>
                                         <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
@@ -419,5 +377,7 @@ export default function Welcome(props) {
             </div>
 
         </>
-    );
+    )
 }
+
+export default Welcome
