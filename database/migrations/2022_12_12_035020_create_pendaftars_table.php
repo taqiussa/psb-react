@@ -15,13 +15,15 @@ return new class extends Migration
     {
         Schema::create('pendaftars', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_daftar');
+            $table->string('kode_daftar')->unique();
             $table->date('tanggal_daftar');
             $table->string('nama');
             $table->string('tahun');
             $table->string('tingkat');
+            $table->string('password');
             $table->boolean('pindahan')->default(0);
             $table->foreignId('user_id');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
