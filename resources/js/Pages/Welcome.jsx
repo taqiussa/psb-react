@@ -1,50 +1,59 @@
 import { Link, Head } from '@inertiajs/inertia-react';
+import { useRef } from 'react';
 
 export default function Welcome(props) {
     var scrollpos = window.scrollY;
-    var header = document.getElementById("header");
-    var navcontent = document.getElementById("nav-content");
-    var navaction = document.getElementById("navAction");
-    var brandname = document.getElementById("brandname");
-    var toToggle = document.querySelectorAll(".toggleColour");
+    const header = useRef(null);
+    const navcontent = useRef(null);
+    const navaction = useRef(null);
+    const toToggle = useRef(null);
+    // var header = document.getElementById("header");
+    // var navcontent = document.getElementById("nav-content");
+    // var navaction = document.getElementById("navAction");
+    // var brandname = document.getElementById("brandname");
+    // var toToggle = document.querySelectorAll(".toggleColour");
 
     document.addEventListener("scroll", function () {
         /*Apply classes for slide in bar*/
         scrollpos = window.scrollY;
 
         if (scrollpos > 10) {
-            header.classList.add("bg-white");
-            navaction.classList.remove("bg-white");
-            navaction.classList.add("bg-gradient-to-r");
-            navaction.classList.add("from-emerald-700");
-            navaction.classList.add("to-green-600");
-            navaction.classList.remove("text-emerald-700");
-            navaction.classList.add("text-white");
+            header.current.classList.add("bg-white");
+            navaction.current.classList.remove("bg-white");
+            navaction.current.classList.add("bg-gradient-to-r");
+            navaction.current.classList.add("from-emerald-700");
+            navaction.current.classList.add("to-green-600");
+            navaction.current.classList.remove("text-emerald-700");
+            navaction.current.classList.add("text-white");
+            toToggle.current.classList.remove("text-white");
+            toToggle.current.classList.add("text-emerald-700");
             //Use to switch toggleColour colours
-            for (var i = 0; i < toToggle.length; i++) {
-                toToggle[i].classList.add("text-emerald-700");
-                toToggle[i].classList.remove("text-white");
-            }
-            header.classList.add("shadow");
-            navcontent.classList.remove("bg-gray-100");
-            navcontent.classList.add("bg-white");
+            // for (var i = 0; i < toToggle.length; i++) {
+            //     toToggle[i].current.classList.add("text-emerald-700");
+            //     toToggle[i].current.classList.remove("text-white");
+            // }
+            header.current.classList.add("shadow");
+            navcontent.current.classList.remove("bg-gray-100");
+            navcontent.current.classList.add("bg-white");
         } else {
-            header.classList.remove("bg-white");
-            navaction.classList.remove("bg-gradient-to-r");
-            navaction.classList.remove("from-emerald-700");
-            navaction.classList.remove("to-green-600");
-            navaction.classList.add("bg-white");
-            navaction.classList.remove("text-white");
-            navaction.classList.add("text-emerald-700");
+            header.current.classList.remove("bg-white");
+            navaction.current.classList.remove("bg-gradient-to-r");
+            navaction.current.classList.remove("from-emerald-700");
+            navaction.current.classList.remove("to-green-600");
+            navaction.current.classList.add("bg-white");
+            navaction.current.classList.remove("text-white");
+            navaction.current.classList.add("text-emerald-700");
+            toToggle.current.classList.remove("text-emerald-700");
+            toToggle.current.classList.add("text-white");
             //Use to switch toggleColour colours
-            for (var i = 0; i < toToggle.length; i++) {
-                toToggle[i].classList.add("text-white");
-                toToggle[i].classList.remove("text-emerald-700");
-            }
+            // for (var i = 0; i < toToggle.length; i++) {
+            //     toToggle[i].current.classList.add("text-white");
+            //     toToggle[i].current.classList.remove("text-emerald-700");
+            // }
 
-            header.classList.remove("shadow");
-            navcontent.classList.remove("bg-white");
-            navcontent.classList.add("bg-gray-100");
+            header.current.classList.remove("shadow");
+            navcontent.current.classList.remove("bg-white");
+            navcontent.current.classList.add("bg-gray-100");
         }
     });
 
@@ -87,10 +96,10 @@ export default function Welcome(props) {
             <Head title="Welcome" />
             <div>
                 <div className="leading-normal tracking-normal text-white bg-gradient-to-r from-emerald-800 to-green-600">
-                    <nav id="header" className="fixed top-0 z-30 w-full text-white">
+                    <nav ref={header} id="header" className="fixed top-0 z-30 w-full text-white">
                         <div className="container flex flex-wrap items-center justify-between w-full py-2 mx-auto mt-0">
                             <div className="flex items-center pl-4">
-                                <a className="flex items-center justify-center text-2xl font-bold text-white no-underline toggleColour hover:no-underline lg:text-2xl" href="#">
+                                <a ref={toToggle} className="flex items-center justify-center text-2xl font-bold text-white no-underline toggleColour hover:no-underline lg:text-2xl" href="#">
                                     <img className="w-16 transition duration-300 transform hover:scale-105" src="/images/logoalfa2.png" alt="logoalfa" />
                                     <span className="p-1">
                                         <span>
@@ -106,7 +115,7 @@ export default function Welcome(props) {
                                     </svg>
                                 </button>
                             </div>
-                            <div className="z-20 flex-grow hidden w-full p-4 mt-2 text-black bg-white lg:flex lg:items-center lg:w-auto lg:mt-0 lg:bg-transparent lg:p-0" id="nav-content">
+                            <div ref={navcontent} className="z-20 flex-grow hidden w-full p-4 mt-2 text-black bg-white lg:flex lg:items-center lg:w-auto lg:mt-0 lg:bg-transparent lg:p-0" id="nav-content">
                                 <ul className="items-center justify-end flex-1 list-reset lg:flex">
                                     <li className="mr-3">
                                         <a className="inline-block px-4 py-2 font-bold no-underline transition duration-300 ease-in-out transform text-slate-700 rounded-3xl hover:underline hover:bg-emerald-500 hover:text-white hover:scale-105" href="#jadwal">Jadwal</a>
@@ -118,7 +127,7 @@ export default function Welcome(props) {
                                         <a className="inline-block px-4 py-2 font-bold no-underline transition duration-300 ease-in-out transform text-slate-700 rounded-3xl hover:underline hover:bg-emerald-500 hover:text-white hover:scale-105" href="#seleksi">Seleksi</a>
                                     </li>
                                 </ul>
-                                <Link id="navAction" className="px-8 py-4 mx-auto mt-4 font-bold text-gray-800 transition duration-300 ease-in-out transform bg-white rounded-full shadow opacity-75 lg:mx-0 hover:underline lg:mt-0 focus:outline-none focus:shadow-outline hover:scale-105" href={route('login')}>
+                                <Link ref={navaction} id="navAction" className="px-8 py-4 mx-auto mt-4 font-bold text-gray-800 transition duration-300 ease-in-out transform bg-white rounded-full shadow opacity-75 lg:mx-0 hover:underline lg:mt-0 focus:outline-none focus:shadow-outline hover:scale-105" href={route('login')}>
                                     Masuk
                                 </Link>
                             </div>
