@@ -4,7 +4,7 @@ import InputError from '@/Components/InputError'
 import AppLayout from '@/Layouts/AppLayout'
 import React, { useEffect, useState } from 'react'
 import { useForm } from '@inertiajs/inertia-react'
-import { isEmpty, set } from 'lodash'
+import { isEmpty } from 'lodash'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -137,6 +137,7 @@ const Pendaftaran = () => {
                         name="nama"
                         className="block w-full"
                         value={data.nama}
+                        handleChange={handleChange}
                     />
                     {
                         errors &&
@@ -151,6 +152,7 @@ const Pendaftaran = () => {
                         name="tempatLahir"
                         className="block w-full"
                         value={data.tempatLahir}
+                        handleChange={handleChange}
                     />
                     {
                         errors &&
@@ -165,6 +167,7 @@ const Pendaftaran = () => {
                         name="tanggalLahir"
                         className="block w-full"
                         value={data.tanggalLahir}
+                        handleChange={handleChange}
                     />
                     {
                         errors &&
@@ -173,13 +176,25 @@ const Pendaftaran = () => {
                 </div>
                 <div className='flex flex-col'>
                     <InputLabel value={'Jenis Kelamin'} />
-                    <select className='rounded-md disabled:bg-slate-200' name='kategoriPendaftar' onChange={handleChange} value={data.jenisKelamin} disabled>
+                    <select className='rounded-md disabled:bg-slate-200' name='kategoriPendaftar' value={data.jenisKelamin} disabled>
                         <option value="">Pilih</option>
                         <option value="L">Laki - Laki</option>
                         <option value="P">Perempuan</option>
                     </select>
                 </div>
             </div>
+            <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
+                    <div className="flex flex-col">
+                        <InputLabel value="NISN" />
+                        <TextInput 
+                        id="nisn"
+                        name="nisn"
+                        value={data.nisn}
+                        handleChange={handleChange}
+                        className="w-full block"
+                        />
+                    </div>
+           </div>  
         </>
     )
 }
