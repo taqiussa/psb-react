@@ -6,13 +6,16 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from '@inertiajs/inertia-react'
 import { isEmpty, set } from 'lodash'
 import axios from 'axios'
+import moment from 'moment'
 
 const Pendaftaran = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
         kodeDaftar: '',
+        nama: '',
         nisn: '',
+        jenisKelamin: '',
         tempatLahir: '',
-        tanggalLahir: '',
+        tanggalLahir: moment(new Date()).format('YYYY-MM-DD'),
         nik: '',
         rt: '',
         rw: '',
@@ -37,7 +40,6 @@ const Pendaftaran = () => {
         teleponWali: ''
     });
     const [kode, setKode] = useState('');
-    const [kodePendaftaran, setKodePendaftaran] = useState('');
     useEffect(() => {
         return () => {
             reset('password');
@@ -56,12 +58,20 @@ const Pendaftaran = () => {
                 kategoriPendaftar: kode
             }))
                 .then(response => {
+                    var jk = ''
+                    if(kode == 'A' || kode == 'C'){
+                        jk = 'L'
+                    } else {
+                        jk = 'P'
+                    }
                     setData(
                         {
                             kodeDaftar: response.data.kode,
+                            nama: '',
                             nisn: '',
+                            jenisKelamin: jk,
                             tempatLahir: '',
-                            tanggalLahir: '',
+                            tanggalLahir: moment(new Date()).format('YYYY-MM-DD'),
                             nik: '',
                             rt: '',
                             rw: '',
@@ -110,6 +120,7 @@ const Pendaftaran = () => {
                         name="username"
                         value={data.kodeDaftar}
                         isDisabled={true}
+                        className="disabled:bg-slate-200"
                     />
                     {
                         errors &&
@@ -119,14 +130,18 @@ const Pendaftaran = () => {
             </div>
             <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div className='flex flex-col'>
-                    <InputLabel value={'NISN'} />
-                    <select className='rounded-md' name='nisn' onChange={handleChange}>
-                        <option value="">Pilih</option>
-                        <option value="A">Baru Putra</option>
-                        <option value="B">Baru Putri</option>
-                        <option value="C">Pindahan Putra</option>
-                        <option value="D">Pindahan Putri</option>
-                    </select>
+                    <InputLabel value={'Nama Lengkap'} />
+                    <TextInput
+                        id="nama"
+                        type="text"
+                        name="nama"
+                        className="block w-full"
+                        value={data.nama}
+                    />
+                    {
+                        errors &&
+                        <InputError message={errors.nama} className="mt-2" />
+                    }
                 </div>
                 <div className='flex flex-col'>
                     <InputLabel value={'Tempat Lahir'} />
@@ -134,12 +149,35 @@ const Pendaftaran = () => {
                         id="tempatLahir"
                         type="text"
                         name="tempatLahir"
+                        className="block w-full"
                         value={data.tempatLahir}
                     />
                     {
                         errors &&
                         <InputError message={errors.tempatLahir} className="mt-2" />
                     }
+                </div>
+                <div className='flex flex-col'>
+                    <InputLabel value={'Tanggal Lahir'} />
+                    <TextInput
+                        id="tanggalLahir"
+                        type="date"
+                        name="tanggalLahir"
+                        className="block w-full"
+                        value={data.tanggalLahir}
+                    />
+                    {
+                        errors &&
+                        <InputError message={errors.tanggalLahir} className="mt-2" />
+                    }
+                </div>
+                <div className='flex flex-col'>
+                    <InputLabel value={'Jenis Kelamin'} />
+                    <select className='rounded-md disabled:bg-slate-200' name='kategoriPendaftar' onChange={handleChange} value={data.jenisKelamin} disabled>
+                        <option value="">Pilih</option>
+                        <option value="L">Laki - Laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
                 </div>
             </div>
         </>
