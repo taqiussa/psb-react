@@ -93,6 +93,16 @@ class InitSeeder extends Seeder
                 // 'user_id' => $pendaftar['user_id'],
                 'password' => bcrypt('asdfasdf')
             ]);
+
+            Pendaftar::create([
+                'nama' => $pendaftar['nama'],
+                'kode_daftar' => $pendaftar['kode_daftar'],
+                'tanggal_daftar' => $pendaftar['tanggal_daftar'],
+                'tahun' => $pendaftar['tahun'],
+                'tingkat' => $pendaftar['tingkat'],
+                'user_id' => $pendaftar['user_id'],
+                'password' => bcrypt('asdfasdf')
+            ]);
         }
     }
 }
