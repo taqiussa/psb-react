@@ -29,7 +29,7 @@ class PendaftaranController extends Controller
             'listProvinsi' => Province::orderBy('name')->get()
                 ->map(fn ($province) => [
                     'name' => $province->name,
-                    'id' => $province->code
+                    'code' => $province->code
                 ]),
         ];
         return inertia('Admin/Pendaftaran', $data);

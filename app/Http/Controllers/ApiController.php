@@ -64,7 +64,7 @@ class ApiController extends Controller
     public function getVillages(Request $request)
     {
         return response()->json([
-            'listKota' => Village::whereDistrictCode($request->code)->orderBy('name')->get()
+            'listDesa' => Village::whereDistrictCode($request->code)->orderBy('name')->get()
         ]);
     }
 }
