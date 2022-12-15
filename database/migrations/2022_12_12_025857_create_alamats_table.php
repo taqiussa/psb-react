@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('alamats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pendaftar_id');
-            $table->string('rt');
-            $table->string('rw');
+            $table->string('rt')->nullable();
+            $table->string('rw')->nullable();
             $table->string('kode_pos')->nullable();
             $table->foreignId('desa');
             $table->foreignId('kecamatan');

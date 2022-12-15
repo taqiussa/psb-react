@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('walis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pendaftar_id');
-            $table->string('nama');
+            $table->string('nama')->nullable();
             $table->string('pekerjaan')->nullable();
+            $table->string('alamat')->nullable();
             $table->string('telepon')->nullable();
             $table->timestamps();
         });

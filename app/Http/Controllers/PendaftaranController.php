@@ -91,4 +91,16 @@ class PendaftaranController extends Controller
         //
     }
 
+
+    public function data_tahun()
+    {
+        $tahunIni = gmdate('Y');
+        $bulanIni = gmdate('m');
+        if ($bulanIni <= 6) {
+            $tahunAjaran = (intval($tahunIni) - 1) . ' / ' . intval($tahunIni);
+        } else {
+            $tahunAjaran = intval($tahunIni) . ' / ' . (intval($tahunIni) + 1);
+        }
+        return $tahunAjaran;
+    }
 }

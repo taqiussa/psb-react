@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('pekerjaan_ibu')->nullable();
             $table->string('penghasilan')->nullable();
             $table->string('telepon')->nullable();
+            $table->string('no_kps')->nullable();
             $table->timestamps();
         });
     }

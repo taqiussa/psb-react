@@ -16,11 +16,10 @@ return new class extends Migration
         Schema::create('sekolah_asals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pendaftar_id');
-            $table->string('nama');
-            $table->foreignId('desa');
-            $table->foreignId('kecamatan');
-            $table->foreignId('kabupaten');
-            $table->foreignId('provinsi');
+            $table->foreignId('desa')->nullable();
+            $table->foreignId('kecamatan')->nullable();
+            $table->foreignId('kabupaten')->nullable();
+            $table->foreignId('provinsi')->nullable();
             $table->timestamps();
         });
     }
