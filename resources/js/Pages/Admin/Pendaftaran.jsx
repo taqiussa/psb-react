@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash'
 import axios from 'axios'
 import moment from 'moment'
 
-const Pendaftaran = ({listProvinsi}) => {
+const Pendaftaran = ({ listProvinsi }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         kodeDaftar: '',
         nama: '',
@@ -40,6 +40,19 @@ const Pendaftaran = ({listProvinsi}) => {
         teleponWali: ''
     });
     const [kode, setKode] = useState('');
+    const [ cities, setCities] = useState([]);
+    const [ districts, setDistricts] = useState([]);
+    const [ villages, setVillages] = useState([]);
+    const [ cities2, setCities2] = useState([]);
+    const [ districts2, setDistricts2] = useState([]);
+    const [ villages2, setVillages2] = useState([]);
+    const [ cities3, setCities3] = useState([]);
+    const [ districts3, setDistricts3] = useState([]);
+    const [ villages3, setVillages3] = useState([]);
+    const [ cities4, setCities4] = useState([]);
+    const [ districts4, setDistricts4] = useState([]);
+    const [ villages4, setVillages4] = useState([]);
+    
     useEffect(() => {
         return () => {
             reset('password');
@@ -53,8 +66,8 @@ const Pendaftaran = ({listProvinsi}) => {
         setKode(e.target.value);
     }
     useEffect(() => {
-        if (!isEmpty(kode))
-            axios.post(route('get-kode', {
+        if (!isEmpty(kode)) {
+            axios.post(route('get-kode-pendaftaran', {
                 kategoriPendaftar: kode
             }))
                 .then(response => {
@@ -97,8 +110,20 @@ const Pendaftaran = ({listProvinsi}) => {
                         }
                     );
                 });
-
+        }
     }, [kode]);
+
+    useEffect(() => {
+        if (!isEmpty(data.provinsi)) {
+            axios.post(route('get-kode-pendaftaran', {
+                kategoriPendaftar: kode
+            }))
+                .then(response => {
+                    
+                });
+        }
+    }, [data.provinsi])
+
     return (
         <>
             <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
@@ -209,7 +234,34 @@ const Pendaftaran = ({listProvinsi}) => {
                     <select className='rounded-md' name='provinsi' value={data.provinsi} onChange={handleChange}>
                         <option value="">Pilih Provinsi</option>
                         {listProvinsi.map((provinsi) => (
-                            <option value={provinsi.id}>{provinsi.name}</option>
+                            <option value={provinsi.id} key={provinsi.id}>{provinsi.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="flex flex-col">
+                    <InputLabel value="Kabupaten" />
+                    <select className='rounded-md' name='kabupaten' value={data.kabupaten} onChange={handleChange}>
+                        <option value="">Pilih Provinsi</option>
+                        {listProvinsi.map((provinsi) => (
+                            <option value={provinsi.id} key={provinsi.id}>{provinsi.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="flex flex-col">
+                    <InputLabel value="Kecamatan" />
+                    <select className='rounded-md' name='kecamatan' value={data.kecamatan} onChange={handleChange}>
+                        <option value="">Pilih Provinsi</option>
+                        {listProvinsi.map((provinsi) => (
+                            <option value={provinsi.id} key={provinsi.id}>{provinsi.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="flex flex-col">
+                    <InputLabel value="Desa" />
+                    <select className='rounded-md' name='desa' value={data.desa} onChange={handleChange}>
+                        <option value="">Pilih Provinsi</option>
+                        {listProvinsi.map((provinsi) => (
+                            <option value={provinsi.id} key={provinsi.id}>{provinsi.name}</option>
                         ))}
                     </select>
                 </div>

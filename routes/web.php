@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Siswa;
@@ -39,6 +40,8 @@ Route::get('/home', function () {
     return Inertia::render('Home');
 })->middleware(['auth', 'verified'])->name('home');
 
+
+
 Route::middleware('auth')->group(function () {
 
     //Route Admin
@@ -46,7 +49,12 @@ Route::middleware('auth')->group(function () {
 
         // Pendaftaran
         Route::get('pendaftaran', [PendaftaranController::class, 'create'])->name('pendaftaran');
-        Route::post('pendaftaran/get-kode', [PendaftaranController::class, 'getKode'])->name('get-kode');
+
+        // Api Semua Data Request
+        Route::post('get-kode-pendaftaran', [ApiController::class, 'getKode'])->name('get-kode-pendaftaran');
+        Route::post('get-cities', [ApiController::class, 'getCities'])->name('get-cities');
+        Route::post('get-districts', [ApiController::class, 'getDistricts'])->name('get-districts');
+        Route::post('get-villages', [ApiController::class, 'getVillages'])->name('get-villages');
     });
 
 
@@ -56,3 +64,37 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+// setData(
+//     {
+//         kodeDaftar: data.kodeDaftar,
+//         nama: data.nama,
+//         nisn: data.nisn,
+//         jenisKelamin: data.jenisKelamin,
+//         tempatLahir: data.tempatLahir,
+//         tanggalLahir: data.tanggalLahir,
+//         nik: data.nik,
+//         rt: data.rt,
+//         rw: data.rw,
+//         desa: data.desa,
+//         kecamatan: data.kecamatan,
+//         kabupaten: response.data.code,
+//         provinsi: data.provinsi,
+//         namaSekolah: data.namaSekolah,
+//         desaSekolah: data.desaSekolah,
+//         kecamatanSekolah: data.kecamatanSekolah,
+//         kabupatenSekolah: data.kabupatenSekolah,
+//         provinsiSekolah: data.provinsiSekolah,
+//         namaAyah: data.namaAyah,
+//         pekerjaanAyah: data.pekerjaanAyah,
+//         namaIbu: data.namaIbu,
+//         pekerjaanIbu: data.pekerjaanIbu,
+//         penghasilan: data.penghasilan,
+//         telepon: data.telepon,
+//         namaWali: data.namaWali,
+//         pekerjaanWali: data.pekerjaanWali,
+//         alamatWali: data.alamatWali,
+//         teleponWali: data.teleponWali
+//     }
+// );
