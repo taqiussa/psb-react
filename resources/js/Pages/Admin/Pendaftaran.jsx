@@ -20,6 +20,8 @@ const Pendaftaran = ({ listProvinsi }) => {
         tempatLahir: '',
         tanggalLahir: moment(new Date()).format('YYYY-MM-DD'),
         nik: '',
+        status: '',
+        anakKe: '',
         rt: '',
         rw: '',
         desa: '',
@@ -458,6 +460,37 @@ const Pendaftaran = ({ listProvinsi }) => {
                             {
                                 errors &&
                                 <InputError message={errors.nisn} className="mt-2" />
+                            }
+                        </div>
+                    </div>
+                    <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
+                        <div className="flex flex-col">
+                            <InputLabel value="Status" />
+                            <TextInput
+                                id="status"
+                                name="status"
+                                value={data.status}
+                                handleChange={handleChange}
+                                className="block w-full"
+                                placeholder="Anak Kandung / Tiri"
+                            />
+                            {
+                                errors &&
+                                <InputError message={errors.status} className="mt-2" />
+                            }
+                        </div>
+                        <div className="flex flex-col">
+                            <InputLabel value="Anak Ke - Berapa" />
+                            <TextInput
+                                id="anakKe"
+                                name="anakKe"
+                                value={data.anakKe}
+                                handleChange={handleChange}
+                                className="block w-full"
+                            />
+                            {
+                                errors &&
+                                <InputError message={errors.anakKe} className="mt-2" />
                             }
                         </div>
                     </div>

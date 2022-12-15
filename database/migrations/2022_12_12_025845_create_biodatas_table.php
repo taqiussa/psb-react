@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('biodatas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pendaftar_id');
+            $table->foreignId('user_id');
             $table->date('tanggal_daftar');
+            $table->string('tahun');
             $table->string('tingkat');
             $table->string('nik')->nullable();
             $table->string('nisn')->nullable();
@@ -24,7 +25,6 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->string('status');
             $table->string('anak_ke');
-            $table->boolean('kps')->default(0);
             $table->string('no_kps')->nullable();
             $table->timestamps();
         });

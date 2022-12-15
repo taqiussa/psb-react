@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Biodata;
 use App\Models\Pendaftar;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laravolt\Indonesia\Models\Province;
 
 class PendaftaranController extends Controller
@@ -51,6 +54,8 @@ class PendaftaranController extends Controller
             'jenisKelamin' => 'required',
             'tempatLahir' => 'required',
             'tanggalLahir' => 'required',
+            'status' => 'required',
+            'anakKe' => 'required',
             'nik' => 'required',
             'rt' => 'required',
             'rw' => 'required',
@@ -70,6 +75,40 @@ class PendaftaranController extends Controller
             'penghasilan' => 'required',
             'telepon' => 'required',
         ]);
+
+        try {
+            DB::beginTransaction();
+
+            $user = User::create([
+                'name' => $request->nama,
+                'kode_daftar' => $request->kodeDaftar,
+                'password' => bcrypt('123456789'),
+                'user_id' => auth()->user()->id
+            ]);
+
+            
+            // $user->alamat()->create([
+            //     '' 
+            // ]);
+            
+            $user->biodata()->create([
+                'tanggal_daftar' => date('Y-m-d'),
+                'tahun' => $this->data_tahun(),
+                'tingkat' => $request->tingkat,
+                'nik' => $request->nik,
+                'nisn' => $request->nisn,
+                'tempat_lahir' => $request->tempatLahir,
+                'tanggal_lahir' => $request->tanggalLahir,
+                'status' => $request->status,
+                'anak_ke' => $request->anakKe,
+                'no_kps' => $request->noKps,
+            ]);
+            DB::commit();
+            dd('Berhasil');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+        }
 
         
     }
@@ -123,12 +162,13 @@ class PendaftaranController extends Controller
     public function data_tahun()
     {
         $tahunIni = gmdate('Y');
-        $bulanIni = gmdate('m');
-        if ($bulanIni <= 6) {
-            $tahunAjaran = (intval($tahunIni) - 1) . ' / ' . intval($tahunIni);
-        } else {
-            $tahunAjaran = intval($tahunIni) . ' / ' . (intval($tahunIni) + 1);
-        }
+        // $bulanIni = gmdate('m');
+        // if ($bulanIni <= 6) {
+        //     $tahunAjaran = (intval($tahunIni) - 1) . ' / ' . intval($tahunIni);
+        // } else {
+        //     $tahunAjaran = intval($tahunIni) . ' / ' . (intval($tahunIni) + 1);
+        // }
+        $tahunAjaran = intval($tahunIni) . ' / ' . intval($tahunIni + 1);
         return $tahunAjaran;
     }
 }

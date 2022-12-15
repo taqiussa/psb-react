@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('username')->unique()->nullable();
             $table->string('kode_daftar')->unique()->nullable();
             $table->string('password');
+            $table->foreignId('user_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

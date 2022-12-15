@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pendaftar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Laravolt\Indonesia\Models\City;
 use Laravolt\Indonesia\Models\District;
@@ -18,7 +19,7 @@ class ApiController extends Controller
      */
     public function getKode(Request $request)
     {
-        $cek_kode_terakhir = Pendaftar::selectRaw('max(kode_daftar) as kode_daftar')
+        $cek_kode_terakhir = User::selectRaw('max(kode_daftar) as kode_daftar')
             ->where('kode_daftar', 'like', $request->kategoriPendaftar . '%')
             ->first();
         $kode_selanjutnya = substr($cek_kode_terakhir->kode_daftar, 1, 4);

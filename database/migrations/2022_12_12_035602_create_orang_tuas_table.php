@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('orang_tuas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pendaftar_id');
+            $table->foreignId('user_id');
             $table->string('nama_ayah');
             $table->string('pekerjaan_ayah')->nullable();
             $table->string('nama_ibu');

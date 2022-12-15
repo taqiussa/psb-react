@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sekolah_asals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pendaftar_id');
+            $table->foreignId('user_id');
             $table->foreignId('desa')->nullable();
             $table->foreignId('kecamatan')->nullable();
             $table->foreignId('kabupaten')->nullable();
