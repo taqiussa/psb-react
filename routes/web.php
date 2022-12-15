@@ -48,7 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:Admin'])->group(function () {
 
         // Pendaftaran
-        Route::get('pendaftaran', [PendaftaranController::class, 'create'])->name('pendaftaran');
+        Route::resource('pendaftaran', PendaftaranController::class)->names([
+            'index' => 'pendaftaran'
+        ]);
 
         // Api Semua Data Request
         Route::post('get-kode-pendaftaran', [ApiController::class, 'getKode'])->name('get-kode-pendaftaran');

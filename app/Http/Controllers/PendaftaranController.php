@@ -15,16 +15,6 @@ class PendaftaranController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
         $data = [
             'listProvinsi' => Province::orderBy('name')->get()
                 ->map(fn ($province) => [
@@ -36,6 +26,16 @@ class PendaftaranController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // 
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,7 +43,35 @@ class PendaftaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kodeDaftar' => 'required|unique:users,kode_daftar',
+            'tingkat' => 'required',
+            'nama' => 'required',
+            'nisn' => 'required',
+            'jenisKelamin' => 'required',
+            'tempatLahir' => 'required',
+            'tanggalLahir' => 'required',
+            'nik' => 'required',
+            'rt' => 'required',
+            'rw' => 'required',
+            'desa' => 'required',
+            'kecamatan' => 'required',
+            'kabupaten' => 'required',
+            'provinsi' => 'required',
+            'namaSekolah' => 'required',
+            'desaSekolah' => 'required',
+            'kecamatanSekolah' => 'required',
+            'kabupatenSekolah' => 'required',
+            'provinsiSekolah' => 'required',
+            'namaAyah' => 'required',
+            'namaIbu' => 'required',
+            'pekerjaanAyah' => 'required',
+            'pekerjaanIbu' => 'required',
+            'penghasilan' => 'required',
+            'telepon' => 'required',
+        ]);
+
+        
     }
 
     /**

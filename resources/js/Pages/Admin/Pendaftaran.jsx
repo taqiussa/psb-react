@@ -2,8 +2,8 @@ import InputLabel from '@/Components/InputLabel'
 import TextInput from '@/Components/TextInput'
 import InputError from '@/Components/InputError'
 import Checkbox from '@/Components/Checkbox'
-import PrimaryButton from '@/Components/PrimaryButton'
 import AppLayout from '@/Layouts/AppLayout'
+import SimpanButton from '@/Components/SimpanButton'
 import React, { useEffect, useState } from 'react'
 import { useForm } from '@inertiajs/inertia-react'
 import { isEmpty } from 'lodash'
@@ -13,6 +13,7 @@ import moment from 'moment'
 const Pendaftaran = ({ listProvinsi }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         kodeDaftar: '',
+        tingkat: '',
         nama: '',
         nisn: '',
         jenisKelamin: '',
@@ -79,7 +80,7 @@ const Pendaftaran = ({ listProvinsi }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert('submited');
+        post(route('pendaftaran.store'));
     }
     useEffect(() => {
         if (!isEmpty(kode)) {
@@ -156,9 +157,9 @@ const Pendaftaran = ({ listProvinsi }) => {
                     setCities2(response.data.listKota);
                 });
         }
-        setCities([]);
-        setDistricts([]);
-        setVillages([]);
+        setCities2([]);
+        setDistricts2([]);
+        setVillages2([]);
     }, [data.provinsiSekolah])
 
     useEffect(() => {
@@ -170,8 +171,8 @@ const Pendaftaran = ({ listProvinsi }) => {
                     setDistricts2(response.data.listKecamatan);
                 });
         }
-        setDistricts([]);
-        setVillages([]);
+        setDistricts2([]);
+        setVillages2([]);
     }, [data.kabupatenSekolah])
 
     useEffect(() => {
@@ -183,7 +184,7 @@ const Pendaftaran = ({ listProvinsi }) => {
                     setVillages2(response.data.listDesa);
                 });
         }
-        setVillages([]);
+        setVillages2([]);
     }, [data.kecamatanSekolah])
 
     // Alamat Sekolah Asal Pindahan
@@ -196,9 +197,9 @@ const Pendaftaran = ({ listProvinsi }) => {
                     setCities3(response.data.listKota);
                 });
         }
-        setCities([]);
-        setDistricts([]);
-        setVillages([]);
+        setCities3([]);
+        setDistricts3([]);
+        setVillages3([]);
     }, [data.provinsiSekolahAsal])
 
     useEffect(() => {
@@ -210,8 +211,8 @@ const Pendaftaran = ({ listProvinsi }) => {
                     setDistricts3(response.data.listKecamatan);
                 });
         }
-        setDistricts([]);
-        setVillages([]);
+        setDistricts3([]);
+        setVillages3([]);
     }, [data.kabupatenSekolahAsal])
 
     useEffect(() => {
@@ -223,7 +224,7 @@ const Pendaftaran = ({ listProvinsi }) => {
                     setVillages3(response.data.listDesa);
                 });
         }
-        setVillages([]);
+        setVillages3([]);
     }, [data.kecamatanSekolahAsal])
 
     return (
@@ -235,26 +236,28 @@ const Pendaftaran = ({ listProvinsi }) => {
                         <div className='flex flex-col'>
                             <InputLabel value='Pendaftaran Siswa' />
                             <select className='rounded-md' name='kategoriPendaftar' onChange={handlePendaftaran}>
-                                <option value="">Pilih</option>
+                                <option value="">Pilih Kategori</option>
                                 <option value="A">Baru Putra</option>
                                 <option value="B">Baru Putri</option>
                                 <option value="C">Pindahan Putra</option>
                                 <option value="D">Pindahan Putri</option>
                             </select>
-                        </div>
-                        <div className='flex flex-col'>
-                            <InputLabel value='Kode Pendaftaran' />
-                            <TextInput
-                                id="username"
-                                type="text"
-                                name="username"
-                                value={data.kodeDaftar}
-                                isDisabled={true}
-                                className="block w-full disabled:bg-slate-200"
-                            />
                             {
                                 errors &&
-                                <InputError message={errors.username} className="mt-2" />
+                                <InputError message={errors.kodeDaftar} className="mt-2" />
+                            }
+                        </div>
+                        <div className='flex flex-col'>
+                            <InputLabel value='Pendaftaran Kelas' />
+                            <select className='rounded-md' name='tingkat' value={data.tingkat} onChange={handleChange}>
+                                <option value="">Pilih Tingkat</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                            {
+                                errors &&
+                                <InputError message={errors.tingkat} className="mt-2" />
                             }
                         </div>
                         <div className='flex flex-col'>
@@ -272,15 +275,20 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 <InputError message={errors.nama} className="mt-2" />
                             }
                         </div>
-                        <div className="flex flex-col">
-                            <InputLabel value="NISN" />
+                        <div className='flex flex-col'>
+                            <InputLabel value='Kode Pendaftaran' />
                             <TextInput
-                                id="nisn"
-                                name="nisn"
-                                value={data.nisn}
-                                handleChange={handleChange}
-                                className="block w-full"
+                                id="kodeDaftar"
+                                type="text"
+                                name="kodeDaftar"
+                                value={data.kodeDaftar}
+                                isDisabled={true}
+                                className="block w-full disabled:bg-slate-200"
                             />
+                            {
+                                errors &&
+                                <InputError message={errors.kodeDaftar} className="mt-2" />
+                            }
                         </div>
                     </div>
                     <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
@@ -293,6 +301,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 handleChange={handleChange}
                                 className="block w-full"
                             />
+                            {
+                                errors &&
+                                <InputError message={errors.nik} className="mt-2" />
+                            }
                         </div>
                         <div className='flex flex-col'>
                             <InputLabel value='Tempat Lahir' />
@@ -326,11 +338,15 @@ const Pendaftaran = ({ listProvinsi }) => {
                         </div>
                         <div className='flex flex-col'>
                             <InputLabel value='Jenis Kelamin' />
-                            <select className='rounded-md disabled:bg-slate-200' name='kategoriPendaftar' value={data.jenisKelamin} disabled>
+                            <select className='rounded-md disabled:bg-slate-200' name='jenisKelamin' value={data.jenisKelamin} disabled>
                                 <option value="">Pilih</option>
                                 <option value="L">Laki - Laki</option>
                                 <option value="P">Perempuan</option>
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.jenisKelamin} className="mt-2" />
+                            }
                         </div>
                     </div>
                     <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
@@ -342,6 +358,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={provinsi.code} key={provinsi.code}>{provinsi.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.provinsi} className="mt-2" />
+                            }
                         </div>
                         <div className="flex flex-col">
                             <InputLabel value="Kabupaten" />
@@ -351,6 +371,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={kabupaten.code} key={kabupaten.code}>{kabupaten.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.kabupaten} className="mt-2" />
+                            }
                         </div>
                         <div className="flex flex-col">
                             <InputLabel value="Kecamatan" />
@@ -360,6 +384,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={kecamatan.code} key={kecamatan.code}>{kecamatan.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.kecamatan} className="mt-2" />
+                            }
                         </div>
                         <div className="flex flex-col">
                             <InputLabel value="Desa" />
@@ -369,6 +397,68 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={desa.code} key={desa.code}>{desa.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.desa} className="mt-2" />
+                            }
+                        </div>
+                    </div>
+                    <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
+                        <div className="flex flex-col">
+                            <InputLabel value="RT" />
+                            <TextInput
+                                id="rt"
+                                name="rt"
+                                value={data.rt}
+                                handleChange={handleChange}
+                                className="block w-full"
+                            />
+                            {
+                                errors &&
+                                <InputError message={errors.rt} className="mt-2" />
+                            }
+                        </div>
+                        <div className="flex flex-col">
+                            <InputLabel value="RW" />
+                            <TextInput
+                                id="rw"
+                                name="rw"
+                                value={data.rw}
+                                handleChange={handleChange}
+                                className="block w-full"
+                            />
+                            {
+                                errors &&
+                                <InputError message={errors.rw} className="mt-2" />
+                            }
+                        </div>
+                        <div className="flex flex-col">
+                            <InputLabel value="Telepon" />
+                            <TextInput
+                                id="telepon"
+                                name="telepon"
+                                value={data.telepon}
+                                handleChange={handleChange}
+                                className="block w-full"
+                            />
+                            {
+                                errors &&
+                                <InputError message={errors.telepon} className="mt-2" />
+                            }
+                        </div>
+                        <div className="flex flex-col">
+                            <InputLabel value="NISN" />
+                            <TextInput
+                                id="nisn"
+                                name="nisn"
+                                value={data.nisn}
+                                handleChange={handleChange}
+                                className="block w-full"
+                            />
+                            {
+                                errors &&
+                                <InputError message={errors.nisn} className="mt-2" />
+                            }
                         </div>
                     </div>
                 </div>
@@ -385,6 +475,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 value={data.namaSekolah}
                                 handleChange={handleChange}
                             />
+                        {
+                                errors &&
+                                <InputError message={errors.namaSekolah} className="mt-2" />
+                            }
                         </div>
                     </div>
                     <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
@@ -396,15 +490,23 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={provinsi.code} key={provinsi.code}>{provinsi.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.provinsiSekolah} className="mt-2" />
+                            }
                         </div>
                         <div className="flex flex-col">
                             <InputLabel value="Kabupaten Sekolah Dasar" />
-                            <select className='rounded-md' name='kabupaten' value={data.kabupatenSekolah} onChange={handleChange}>
+                            <select className='rounded-md' name='kabupatenSekolah' value={data.kabupatenSekolah} onChange={handleChange}>
                                 <option value="">Pilih Kabupaten</option>
                                 {cities2.map((kabupaten) => (
                                     <option value={kabupaten.code} key={kabupaten.code}>{kabupaten.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.kabupatenSekolah} className="mt-2" />
+                            }
                         </div>
                         <div className="flex flex-col">
                             <InputLabel value="Kecamatan Sekolah Dasar" />
@@ -414,6 +516,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={kecamatan.code} key={kecamatan.code}>{kecamatan.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.kecamatanSekolah} className="mt-2" />
+                            }
                         </div>
                         <div className="flex flex-col">
                             <InputLabel value="Desa Sekolah Dasar" />
@@ -423,6 +529,10 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     <option value={desa.code} key={desa.code}>{desa.name}</option>
                                 ))}
                             </select>
+                            {
+                                errors &&
+                                <InputError message={errors.desaSekolah} className="mt-2" />
+                            }
                         </div>
                     </div>
                 </div>
@@ -493,6 +603,7 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 name="namaAyah"
                                 value={data.namaAyah}
                                 className="block w-full"
+                                handleChange={handleChange}
                             />
                             {
                                 errors &&
@@ -522,6 +633,7 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 name="namaIbu"
                                 value={data.namaIbu}
                                 className="block w-full"
+                                handleChange={handleChange}
                             />
                             {
                                 errors &&
@@ -578,10 +690,6 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 handleChange={handleChange}
                                 className="block w-full"
                             />
-                            {
-                                errors &&
-                                <InputError message={errors.noKps} className="mt-2" />
-                            }
                         </div>
                     </div>
                 </div>
@@ -597,11 +705,8 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     name="namaWali"
                                     value={data.namaWali}
                                     className="block w-full"
+                                    handleChange={handleChange}
                                 />
-                                {
-                                    errors &&
-                                    <InputError message={errors.namaWali} className="mt-2" />
-                                }
                             </div>
                             <div className='flex flex-col'>
                                 <InputLabel value='Pekerjaan Wali' />
@@ -613,10 +718,6 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     value={data.pekerjaanWali}
                                     handleChange={handleChange}
                                 />
-                                {
-                                    errors &&
-                                    <InputError message={errors.pekerjaanWali} className="mt-2" />
-                                }
                             </div>
                             <div className='flex flex-col'>
                                 <InputLabel value='Alamat Wali' />
@@ -626,11 +727,8 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     name="alamatWali"
                                     value={data.alamatWali}
                                     className="block w-full"
+                                    handleChange={handleChange}
                                 />
-                                {
-                                    errors &&
-                                    <InputError message={errors.alamatWali} className="mt-2" />
-                                }
                             </div>
                             <div className='flex flex-col'>
                                 <InputLabel value='Telepon Wali' />
@@ -642,18 +740,14 @@ const Pendaftaran = ({ listProvinsi }) => {
                                     value={data.teleponWali}
                                     handleChange={handleChange}
                                 />
-                                {
-                                    errors &&
-                                    <InputError message={errors.teleponWali} className="mt-2" />
-                                }
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="mt-2 mb-10 mr-5 flex justify-end">
-                    <PrimaryButton className="ml-4" processing={processing}>
-                        Simpan
-                    </PrimaryButton>
+                    <SimpanButton className="ml-4" processing={processing}>
+                        Simpan {processing ? <span className="ml-3 spinner-border animate-spin w-5 h-5 border-2 rounded-full border-r-emerald-600"></span> : null }
+                    </SimpanButton>
                 </div>
             </form>
         </>
