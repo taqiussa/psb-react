@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pendaftar;
 use Illuminate\Http\Request;
+use Laravolt\Indonesia\Models\Province;
 
 class PendaftaranController extends Controller
 {
@@ -24,7 +25,14 @@ class PendaftaranController extends Controller
      */
     public function create()
     {
-        return inertia('Admin/Pendaftaran');
+        $data = [
+            'listProvinsi' => Province::orderBy('name')->get()
+                ->map(fn ($province) => [
+                    'name' => $province->name,
+                    'id' => $province->code
+                ]),
+        ];
+        return inertia('Admin/Pendaftaran', $data);
     }
 
     /**

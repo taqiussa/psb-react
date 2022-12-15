@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash'
 import axios from 'axios'
 import moment from 'moment'
 
-const Pendaftaran = () => {
+const Pendaftaran = ({listProvinsi}) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         kodeDaftar: '',
         nama: '',
@@ -59,7 +59,7 @@ const Pendaftaran = () => {
             }))
                 .then(response => {
                     var jk = ''
-                    if(kode == 'A' || kode == 'C'){
+                    if (kode == 'A' || kode == 'C') {
                         jk = 'L'
                     } else {
                         jk = 'P'
@@ -103,7 +103,7 @@ const Pendaftaran = () => {
         <>
             <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div className='flex flex-col'>
-                    <InputLabel value={'Pendaftaran Siswa'} />
+                    <InputLabel value='Pendaftaran Siswa' />
                     <select className='rounded-md' name='kategoriPendaftar' onChange={handlePendaftaran}>
                         <option value="">Pilih</option>
                         <option value="A">Baru Putra</option>
@@ -113,24 +113,22 @@ const Pendaftaran = () => {
                     </select>
                 </div>
                 <div className='flex flex-col'>
-                    <InputLabel value={'Kode Pendaftaran'} />
+                    <InputLabel value='Kode Pendaftaran' />
                     <TextInput
                         id="username"
                         type="text"
                         name="username"
                         value={data.kodeDaftar}
                         isDisabled={true}
-                        className="disabled:bg-slate-200"
+                        className="block w-full disabled:bg-slate-200"
                     />
                     {
                         errors &&
                         <InputError message={errors.username} className="mt-2" />
                     }
                 </div>
-            </div>
-            <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div className='flex flex-col'>
-                    <InputLabel value={'Nama Lengkap'} />
+                    <InputLabel value='Nama Lengkap' />
                     <TextInput
                         id="nama"
                         type="text"
@@ -144,8 +142,30 @@ const Pendaftaran = () => {
                         <InputError message={errors.nama} className="mt-2" />
                     }
                 </div>
+                <div className="flex flex-col">
+                    <InputLabel value="NISN" />
+                    <TextInput
+                        id="nisn"
+                        name="nisn"
+                        value={data.nisn}
+                        handleChange={handleChange}
+                        className="block w-full"
+                    />
+                </div>
+            </div>
+            <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
+                <div className="flex flex-col">
+                    <InputLabel value="NIK" />
+                    <TextInput
+                        id="nik"
+                        name="nik"
+                        value={data.nik}
+                        handleChange={handleChange}
+                        className="block w-full"
+                    />
+                </div>
                 <div className='flex flex-col'>
-                    <InputLabel value={'Tempat Lahir'} />
+                    <InputLabel value='Tempat Lahir' />
                     <TextInput
                         id="tempatLahir"
                         type="text"
@@ -160,7 +180,7 @@ const Pendaftaran = () => {
                     }
                 </div>
                 <div className='flex flex-col'>
-                    <InputLabel value={'Tanggal Lahir'} />
+                    <InputLabel value='Tanggal Lahir' />
                     <TextInput
                         id="tanggalLahir"
                         type="date"
@@ -175,7 +195,7 @@ const Pendaftaran = () => {
                     }
                 </div>
                 <div className='flex flex-col'>
-                    <InputLabel value={'Jenis Kelamin'} />
+                    <InputLabel value='Jenis Kelamin' />
                     <select className='rounded-md disabled:bg-slate-200' name='kategoriPendaftar' value={data.jenisKelamin} disabled>
                         <option value="">Pilih</option>
                         <option value="L">Laki - Laki</option>
@@ -184,17 +204,16 @@ const Pendaftaran = () => {
                 </div>
             </div>
             <div className="py-3 lg:grid lg:grid-cols-4 lg:gap-4">
-                    <div className="flex flex-col">
-                        <InputLabel value="NISN" />
-                        <TextInput 
-                        id="nisn"
-                        name="nisn"
-                        value={data.nisn}
-                        handleChange={handleChange}
-                        className="w-full block"
-                        />
-                    </div>
-           </div>  
+                <div className="flex flex-col">
+                    <InputLabel value="Provinsi" />
+                    <select className='rounded-md' name='provinsi' value={data.provinsi} onChange={handleChange}>
+                        <option value="">Pilih Provinsi</option>
+                        {listProvinsi.map((provinsi) => (
+                            <option value={provinsi.id}>{provinsi.name}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
         </>
     )
 }

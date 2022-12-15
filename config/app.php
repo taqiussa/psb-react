@@ -187,6 +187,8 @@ return [
          */
 
         Spatie\Permission\PermissionServiceProvider::class,
+        Laravolt\Indonesia\ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
