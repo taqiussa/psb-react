@@ -14,8 +14,11 @@ const Sidebar = ({ open, closeSide }) => {
                         </svg>
                     </button>
                     <h1 className="block py-8 text-2xl font-bold text-emerald-700">{auth.user.name}</h1>
-                    <SidebarLink href={route('pendaftaran')} active={route().current('pendaftaran')}>
+                    <SidebarLink href={route('pendaftaran.create')} active={route().current('pendaftaran.create')}>
                         Pendaftaran
+                    </SidebarLink>
+                    <SidebarLink href={route('pendaftaran.index')} active={route().current('pendaftaran.index')}>
+                        Data Pendaftar
                     </SidebarLink>
                     <SidebarLink href={route('logout')} method="post" as="button">
                         Logout

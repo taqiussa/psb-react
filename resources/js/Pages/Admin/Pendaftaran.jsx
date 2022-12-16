@@ -5,10 +5,11 @@ import Checkbox from '@/Components/Checkbox'
 import AppLayout from '@/Layouts/AppLayout'
 import SimpanButton from '@/Components/SimpanButton'
 import React, { useEffect, useState } from 'react'
-import { useForm } from '@inertiajs/inertia-react'
+import { Head, useForm } from '@inertiajs/inertia-react'
 import { isEmpty } from 'lodash'
 import axios from 'axios'
 import moment from 'moment'
+import { toast } from 'react-toastify';
 
 const Pendaftaran = ({ listProvinsi }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -82,7 +83,21 @@ const Pendaftaran = ({ listProvinsi }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('pendaftaran.store'));
+        post(route('pendaftaran.store'), {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+            onSuccess: () => {
+                toast.success('Berhasil Simpan Pendaftaran', {
+                    theme: 'colored'
+                })
+            },
+            onError: () => {
+                toast.error('Gagal !', {
+                    theme: 'colored'
+                });
+            }
+        });
     }
     useEffect(() => {
         if (!isEmpty(kode)) {
@@ -231,6 +246,7 @@ const Pendaftaran = ({ listProvinsi }) => {
 
     return (
         <>
+            <Head title='Pendaftaran' />
             <form onSubmit={handleSubmit} >
                 <h1 className='text-2xl font-bold text-slate-700'>Identitas Calon Siswa</h1>
                 <div className="block border border-slate-300 p-4 shadow-md rounded-lg mb-5">
@@ -508,7 +524,7 @@ const Pendaftaran = ({ listProvinsi }) => {
                                 value={data.namaSekolah}
                                 handleChange={handleChange}
                             />
-                        {
+                            {
                                 errors &&
                                 <InputError message={errors.namaSekolah} className="mt-2" />
                             }
@@ -779,7 +795,7 @@ const Pendaftaran = ({ listProvinsi }) => {
                 </div>
                 <div className="mt-2 mb-10 mr-5 flex justify-end">
                     <SimpanButton className="ml-4" processing={processing}>
-                        Simpan {processing ? <span className="ml-3 spinner-border animate-spin w-5 h-5 border-2 rounded-full border-r-emerald-600"></span> : null }
+                        Simpan {processing ? <span className="ml-3 spinner-border animate-spin w-5 h-5 border-2 rounded-full border-r-emerald-600"></span> : null}
                     </SimpanButton>
                 </div>
             </form>

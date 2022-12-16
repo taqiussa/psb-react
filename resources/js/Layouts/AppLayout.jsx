@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AppLayout = ({ children }) => {
     const [open, setOpen] = useState(false);
 
@@ -14,6 +16,8 @@ const AppLayout = ({ children }) => {
 
     return (
         <>
+            <ToastContainer />
+            
             {/* Left Col */}
             <Sidebar open={open} closeSide={closeSide} />
             {/* End Left Col */}

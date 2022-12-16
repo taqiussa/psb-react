@@ -19,13 +19,9 @@ class PendaftaranController extends Controller
     public function index()
     {
         $data = [
-            'listProvinsi' => Province::orderBy('name')->get()
-                ->map(fn ($province) => [
-                    'name' => $province->name,
-                    'code' => $province->code
-                ]),
+            'listPendaftar' => User::role('Pendaftar')->orderBy('kode_daftar')->get(),
         ];
-        return inertia('Admin/Pendaftaran', $data);
+        return inertia('Admin/DataPendaftar', $data);
     }
 
     /**
@@ -35,7 +31,14 @@ class PendaftaranController extends Controller
      */
     public function create()
     {
-        // 
+        $data = [
+            'listProvinsi' => Province::orderBy('name')->get()
+                ->map(fn ($province) => [
+                    'name' => $province->name,
+                    'code' => $province->code
+                ]),
+        ];
+        return inertia('Admin/Pendaftaran', $data);
     }
 
     /**
@@ -82,15 +85,21 @@ class PendaftaranController extends Controller
             $user = User::create([
                 'name' => $request->nama,
                 'kode_daftar' => $request->kodeDaftar,
+                'username' => $request->kodeDaftar,
                 'password' => bcrypt('123456789'),
                 'user_id' => auth()->user()->id
             ]);
 
-            
-            // $user->alamat()->create([
-            //     '' 
-            // ]);
-            
+            // Kode Pos Belum Bos
+            $user->alamat()->create([
+                'rt' => $request->rt,
+                'rw' => $request->rw,
+                'desa' => $request->desa,
+                'kecamatan' => $request->kecamatan,
+                'kabupaten' => $request->kabupaten,
+                'provinsi' => $request->provinsi,
+            ]);
+
             $user->biodata()->create([
                 'tanggal_daftar' => date('Y-m-d'),
                 'tahun' => $this->data_tahun(),
@@ -103,14 +112,48 @@ class PendaftaranController extends Controller
                 'anak_ke' => $request->anakKe,
                 'no_kps' => $request->noKps,
             ]);
+
+            $user->orangTua()->create([
+                'nama_ayah' => $request->namaAyah,
+                'pekerjaan_ayah' => $request->pekerjaanAyah,
+                'nama_ibu' => $request->namaIbu,
+                'pekerjaan_ibu' => $request->pekerjaanIbu,
+                'penghasilan' => $request->penghasilan,
+                'telepon' => $request->telepon,
+                'no_kps' => $request->noKps,
+            ]);
+
+            $user->sekolahSd()->create([
+                'nama' => $request->namaSekolah,
+                'desa' => $request->desaSekolah,
+                'kecamatan' => $request->kecamatanSekolah,
+                'kabupaten' => $request->kabupatenSekolah,
+                'provinsi' => $request->provinsiSekolah,
+            ]);
+
+            $user->sekolahAsal()->create([
+                'nama' => $request->namaSekolahAsal,
+                'desa' => $request->desaSekolahAsal,
+                'kecamatan' => $request->kecamatanSekolahAsal,
+                'kabupaten' => $request->kabupatenSekolahAsal,
+                'provinsi' => $request->provinsiSekolahAsal,
+            ]);
+
+            $user->wali()->create([
+                'nama' => $request->namaWali,
+                'pekerjaan' => $request->pekerjaanWali,
+                'alamat' => $request->alamatWali,
+                'telepon' => $request->teleponWali,
+            ]);
+
+            $user->assignRole('Pendaftar');
+
             DB::commit();
-            dd('Berhasil');
+            return redirect()->route('pendaftaran.create');
         } catch (\Throwable $th) {
             DB::rollBack();
             dd($th);
         }
-
-        
     }
 
     /**

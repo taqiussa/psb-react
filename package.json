@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "moment": "^2.29.4",
-        "react-tailwindcss-select": "^1.6.0"
+        "react-tailwindcss-select": "^1.6.0",
+        "react-toastify": "^9.1.1"
     }
 }
