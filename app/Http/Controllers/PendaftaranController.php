@@ -19,7 +19,8 @@ class PendaftaranController extends Controller
     public function index()
     {
         $data = [
-            'listPendaftar' => User::role('Pendaftar')->orderBy('kode_daftar')->get(),
+            'listPendaftar' => User::role('Pendaftar')
+            ->with('panitia')->orderBy('kode_daftar')->get(),
         ];
         return inertia('Admin/DataPendaftar', $data);
     }

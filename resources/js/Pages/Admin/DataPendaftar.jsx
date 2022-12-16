@@ -1,103 +1,75 @@
 import AppLayout from '@/Layouts/AppLayout'
 import { Head } from '@inertiajs/inertia-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '../Table/Index'
-
+import Searchbar from '../Table/Searchbar'
 const DataPendaftar = ({ listPendaftar }) => {
-    const [rowData, setRowData] = useState([])
+    // const rowdata = listPendaftar.map((pendaftar) => ({
+    //     name: pendaftar.name,
+    //     kodeDaftar: pendaftar.kode_daftar,
+    //     panitia: pendaftar.panitia.name
+    // }));
 
-    const onAddRowClick = () => {
+    const [rowData, setRowData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [skipPageReset, setSkipPageReset] = useState(false);
 
+    useEffect(() => {
         setRowData(
-
-            rowData.concat({ username: "", email: "", gender: "", phone: "" })
-
+            listPendaftar.map((pendaftar) => ({
+                name: pendaftar.name,
+                kodeDaftar: pendaftar.kode_daftar,
+                panitia: pendaftar.panitia.name
+            }))
         )
-
-
-
-    }
-
+    }, [])
     const columns = [
-
         {
-
             Header: "Name",
-
-            accessor: "username",
-
+            accessor: "name",
         },
-
         {
-
-            Header: "Email",
-
-            accessor: "email",
-
+            Header: "Kode Daftar",
+            accessor: "kodeDaftar",
         },
-
         {
-
-            Header: "Gender",
-
-            accessor: "gender",
-
-        },
-
-        {
-
-            Header: "Phone",
-
-            accessor: "phone",
-
+            Header: "Panitia",
+            accessor: "panitia",
         },
 
     ]
+
+    const onSearchbarChange = (e) => {
+        const value = e.target.value;
+
+        if (value === "") {
+            setFilteredData(rowData);
+        } else {
+            if (filteredData.length > 0) {
+                const result = filteredData.filter((item) => item.name === value);
+
+                setFilteredData(result);
+            } else {
+                const result = rowData.filter((item) => item.name === value);
+
+                setFilteredData(result);
+            }
+        }
+    };
+
+    useEffect(() => {
+        console.log(filteredData);
+    },[filteredData])
     return (
         <>
             <Head title='Data Pendaftar' />
             <div className="block border border-slate-300 p-4 shadow-md rounded-lg mb-5">
                 <div className="container mx-auto">
-
-                    <button
-
-                        onClick={onAddRowClick}
-
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-
-                    >
-
-                        Add Row
-
-                    </button>
-
+                    <Searchbar onChange={onSearchbarChange} />
                     <div className="flex justify-center mt-8">
-
-                        <Table columns={columns} data={rowData} />
-
+                        <Table columns={columns} data={filteredData.length > 0 ? filteredData : rowData} />
                     </div>
-
                 </div>
-                {/* <div className="overflow-x-auto">
-                    <table className=" border border-slate-500 border-separate w-full">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {listPendaftar.map((a, index) => (
-                                <tr className=' text-slate-600'>
-                                    <td>{index + 1}</td>
-                                    <td>{a.kode_daftar}</td>
-                                    <td>{a.name}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div> */}
             </div>
         </>
     )
